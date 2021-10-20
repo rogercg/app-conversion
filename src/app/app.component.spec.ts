@@ -20,16 +20,38 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'app-conversion'`, () => {
+  it(`Debe retornar formulario invalido`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('app-conversion');
+    fixture.detectChanges();
+
+    const currencyInput = app.myForm.controls['currencyInputCtrl'];
+    currencyInput.setValue('EUR');
+
+    const currencyOutput = app.myForm.controls['currencyOutputCtrl'];
+    currencyOutput.setValue('USD');
+
+    const amount = app.myForm.controls['amountCtrl'];
+    amount.setValue('CIEN');
+
+    expect(app.myForm.invalid).toBeTrue();
   });
 
-  it('should render title', () => {
+  it(`Debe retornar formulario valido`, () => {
     const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('app-conversion app is running!');
+
+    const currencyInput = app.myForm.controls['currencyInputCtrl'];
+    currencyInput.setValue('EUR');
+
+    const currencyOutput = app.myForm.controls['currencyOutputCtrl'];
+    currencyOutput.setValue('USD');
+
+    const amount = app.myForm.controls['amountCtrl'];
+    amount.setValue(100);
+
+    expect(app.myForm.valid).toBeTrue();
   });
+
 });
