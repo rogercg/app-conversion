@@ -22,6 +22,12 @@ body{
   color: var(--text-color);
 }
 
+img{
+  width: 200px;
+}
+
 .ng-invalid {
   border-color: red;
 }
+
+
