@@ -37,33 +37,42 @@ export class AppComponent {
   }
 
   formDetectChanges(){
+    // Reiniciamos este valor para utilizarlo en la estructura condicional de nuestro HTML
     this.amountExchange = 0;
   }
 
   onSubmit(): void {
     this.myForm.updateValueAndValidity();
     this.myForm.markAllAsTouched();
-    console.log(this.myForm);
-    if (this.myForm.invalid) {
+    if (this.myForm.invalid){
       alert("Verificar el valor de los datos ingresados");
       return;
     }
+    // Preparamos la data a utilizar
     const form = this.myForm.getRawValue();
     const symbols = form.currencyInputCtrl.concat(form.currencyOutputCtrl);
-    // Validar si seconsumirá o no el API
-    this.getRates(form, symbols);
+    const result = this.exchangeService.getRates(symbols, form.dateCtrl);
+    // El objeto obtenido no esta vacio ?
+    if(Object.keys(result).length > 0){
+      // No consumimos el API y obtenemos la información de localstorage
+      this.amountExchange = this.exchangeService.calculateRates(result, form);
+    } else{
+      // Consumimo el API y guardamos la respuesta en localstorage
+      this.getRates(form, symbols);
+    }
   }
 
   getRates(form: Data, symbols: string){
     this.exchangeService.getExchange(form).subscribe(
 			async (data) => {
 				if(data.success){
+          // Asignamos el resultado del calculo a "amountExchange"
           this.amountExchange = this.exchangeService.calculateRates(data.rates, form);
+          // Guardar rates en localstorage
+          this.exchangeService.saveRates(symbols, data.rates, form.dateCtrl);
         }
 			},
 			(err) => {
-				if (err.status === 401 || err.status === 403) {
-				}
 				console.log(err);
 			}
 		);
