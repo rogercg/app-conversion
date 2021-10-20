@@ -18,11 +18,10 @@ export class ExchangeService {
   }
 
   calculateRates(rates: any, form: Data): number{
-    // Valor en EUR -> Origin -> Destiny
     let valueOrigin = rates[form.currencyInputCtrl];
     let valueDestiny = rates[form.currencyOutputCtrl];
     let baseToOrigin = rates['EUR']/valueOrigin;
-    let amountOrigin = baseToOrigin / valueDestiny;
+    let amountOrigin = baseToOrigin * valueDestiny;
     return amountOrigin * form.amountCtrl;
   }
 

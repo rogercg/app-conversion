@@ -37,7 +37,7 @@ export class AppComponent {
   }
 
   formDetectChanges(){
-    // Limpiar amountExchange
+    this.amountExchange = 0;
   }
 
   onSubmit(): void {
@@ -58,7 +58,6 @@ export class AppComponent {
     this.exchangeService.getExchange(form).subscribe(
 			async (data) => {
 				if(data.success){
-          // Valor en EUR -> Origin -> Destiny
           this.amountExchange = this.exchangeService.calculateRates(data.rates, form);
         }
 			},
