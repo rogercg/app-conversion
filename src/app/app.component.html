@@ -1,7 +1,54 @@
 <div class="container">
-  <h1 class="text-center">App - Conversion</h1>
   <div class="card mt-5">
-    <h2>FORM</h2>
-    <h3>RESULT</h3>
+    <div class="card-body">
+      <h3 class="card-title text-center">App - Conversion</h3>
+      <br>
+      <p class="card-text text-center">Ingrese los datos solicitados y presione el botón de "Convertir".</p>
+      <form [formGroup]="myForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="currencyInput" class="form-label">Moneda origen *</label>
+              <select id="currencyInput" formControlName="currencyInputCtrl" class="form-select"
+                aria-label="Default select example">
+                <option *ngFor="let currency of currencyList" [value]="currency">{{currency}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="currencyOutput" class="form-label">Moneda destino *</label>
+              <select id="currencyOutput" formControlName="currencyOutputCtrl" class="form-select"
+                aria-label="Default select example">
+                <option *ngFor="let currency of currencyList" [value]="currency">{{currency}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="amount" class="form-label">Ingrese el monto a convertir *</label>
+              <input formControlName="amountCtrl" type="text" class="form-control" id="amount" placeholder="10.00">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="date" class="form-label">Seleccione una fecha</label>
+              <input formControlName="dateCtrl" type="date" class="form-control" id="date">
+            </div>
+          </div>
+          <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-success btn-lg">Convertir</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <h5 class="text-end">
+      <strong>{{myForm.controls.dateCtrl.value | date: 'mediumDate'}}</strong>
+    </h5>
+    <h4 class="text-center">
+      <strong>{{myForm.controls.amountCtrl.value}} {{myForm.controls.currencyInputCtrl.value}}</strong>
+      equivale a:
+      <strong>100.00 {{myForm.controls.currencyOutputCtrl.value}}</strong>
+    </h4>
   </div>
 </div>
